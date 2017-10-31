@@ -22,5 +22,13 @@
  * Domain Path:       /languages
  */
 
-echo 'Hello WordPress Plugin World!';
-?>
+/**
+ * Registers the 'calendar' shortcode with WordPress.
+ * 
+ * @return string
+ */
+function registerCometCalendarShortcode()
+{
+    return 'Hello WordPress Plugin World!';
+}
+add_shortcode( 'comet-calendar', 'registerCometCalendarShortcode');
