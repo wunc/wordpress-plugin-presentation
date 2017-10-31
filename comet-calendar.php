@@ -24,22 +24,25 @@
 
 /**
  * Renders the 'comet-calendar' shortcode.
- * 
+ *
+ * @param array $attributes The shortcode attributes
  * @return string
  */
-function renderCometCalendarShortcode()
+function renderCometCalendarShortcode($attributes)
 {
-    $feed_id = '5021';
+    $options = shortcode_atts([
+        'feed_id' => '5021',
+    ], $attributes);
 
     $public_url = plugin_dir_url(__FILE__) . 'public';
 
     // Load Scripts
-    wp_enqueue_script('utd_cometcalendar_js', 'https://www.utdallas.edu/calendar/api/apijq.php?n=' . $feed_id, ['jquery'], '1.0.0');
+    wp_enqueue_script('utd_cometcalendar_js', 'https://www.utdallas.edu/calendar/api/apijq.php?n=' . $options['feed_id'], ['jquery'], '1.0.0');
     wp_enqueue_script('cometcalendar_js', $public_url . '/js/cometcalendar.js', ['jquery', 'utd_cometcalendar_js'], '1.0.0');
 
     // Load Styles
     wp_enqueue_style('cometcalendar_css', $public_url . '/css/cometcalendar.css', [], '1.0.0');
 
-    return '<div id="cc' . $feed_id . '" class="comet-calendar"></div>';
+    return '<div id="cc' . $options['feed_id'] . '" class="comet-calendar"></div>';
 }
 add_shortcode( 'comet-calendar', 'renderCometCalendarShortcode');
