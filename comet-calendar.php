@@ -23,12 +23,12 @@
  */
 
 /**
- * Registers the 'calendar' shortcode with WordPress.
+ * Renders the 'comet-calendar' shortcode.
  * 
  * @return string
  */
-function registerCometCalendarShortcode()
+function renderCometCalendarShortcode()
 {
     return 'Hello WordPress Plugin World!';
 }
-add_shortcode( 'comet-calendar', 'registerCometCalendarShortcode');
+add_shortcode( 'comet-calendar', 'renderCometCalendarShortcode');
