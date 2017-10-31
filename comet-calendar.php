@@ -29,6 +29,11 @@
  */
 function renderCometCalendarShortcode()
 {
-    return 'Hello WordPress Plugin World!';
+    $feed_id = '5021';
+
+    // Load Scripts
+    wp_enqueue_script('utd_cometcalendar_js', 'https://www.utdallas.edu/calendar/api/apijq.php?n=' . $feed_id, ['jquery'], '1.0.0');
+
+    return '<div id="cc' . $feed_id . '"></div>';
 }
 add_shortcode( 'comet-calendar', 'renderCometCalendarShortcode');

@@ -14,3 +14,4 @@ The branches in this repository represents the steps in the presentation. To loa
 
 1. The plugin bootstrap file.
 2. Hooking into WordPress: adding a shortcode.
+3. Loading external assets.
