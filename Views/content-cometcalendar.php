@@ -1,0 +1,1 @@
+<div id="cc<?= $options['feed_id'] ?>" class="comet-calendar"></div>

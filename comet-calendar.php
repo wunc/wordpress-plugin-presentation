@@ -50,6 +50,7 @@ function renderCometCalendarShortcode($attributes)
         'time' => '',
     ], $attributes);
 
+    $view_dir = plugin_dir_path(__FILE__) . 'Views';
     $public_url = plugin_dir_url(__FILE__) . 'public';
 
     // Load Scripts
@@ -61,6 +62,17 @@ function renderCometCalendarShortcode($attributes)
     // Load Styles
     wp_enqueue_style('cometcalendar_css', $public_url . '/css/cometcalendar.css', [], '1.0.0');
 
-    return '<div id="cc' . $options['feed_id'] . '" class="comet-calendar"></div>';
+    ob_start();
+
+    // If the theme has a template-parts/content-cometcalendar.php file, use that to render.
+    // Otherwise, use the default view partial included in this plugin.
+    if (locate_template('template-parts/content-cometcalendar.php')) {
+        set_query_var('options', $options); // pass $options to the template
+        get_template_part('template-parts/content', 'cometcalendar');
+    } else {
+        include($view_dir . '/content-cometcalendar.php');
+    }
+
+    return ob_get_clean();
 }
 add_shortcode( 'comet-calendar', 'renderCometCalendarShortcode');
