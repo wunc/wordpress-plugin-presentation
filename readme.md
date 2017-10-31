@@ -21,3 +21,4 @@ The branches in this repository represents the steps in the presentation. To loa
 7. Adding features.
 8. Best practices for JavaScript.
 9. Allowing the theme to customize the shortcode DOM.
+10. Best practices for PHP.
