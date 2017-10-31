@@ -32,6 +32,10 @@ function renderCometCalendarShortcode($attributes)
 {
     $options = shortcode_atts([
         'feed_id' => '5021',
+        'year' => null,
+        'limit' => 1000,
+        'limit_showing' => 'earliest',
+        'order' => 'asc',
         // Comet Calendar JS API options
         'disable_link' => false,
         'title' => '',

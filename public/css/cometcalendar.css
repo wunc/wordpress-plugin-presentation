@@ -4,13 +4,13 @@
   margin-bottom: 2rem;
 }
 
-.comet-calendar > div > .title {
+.comet-calendar .title {
   font-size: 1.5rem;
   font-weight: bold;
   color: black;
 }
 
-.comet-calendar > div > .title > a {
+.comet-calendar .title > a {
   text-decoration: none;
   box-shadow: none;
 }
