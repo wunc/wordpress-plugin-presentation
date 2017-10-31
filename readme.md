@@ -17,3 +17,4 @@ The branches in this repository represents the steps in the presentation. To loa
 3. Loading external assets.
 4. Loading internal assets.
 5. Reading shortcode attributes.
+6. Passing data to JavaScript.

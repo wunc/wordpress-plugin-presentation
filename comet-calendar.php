@@ -32,13 +32,27 @@ function renderCometCalendarShortcode($attributes)
 {
     $options = shortcode_atts([
         'feed_id' => '5021',
+        // Comet Calendar JS API options
+        'disable_link' => false,
+        'title' => '',
+        'contact_email' => '',
+        'contact_name' => '',
+        'z_location' => '',
+        'contact_phone' => '',
+        'description' => '',
+        'img_loc' => '',
+        'tags' => '',
+        'website' => '',
+        'time' => '',
     ], $attributes);
 
     $public_url = plugin_dir_url(__FILE__) . 'public';
 
     // Load Scripts
     wp_enqueue_script('utd_cometcalendar_js', 'https://www.utdallas.edu/calendar/api/apijq.php?n=' . $options['feed_id'], ['jquery'], '1.0.0');
-    wp_enqueue_script('cometcalendar_js', $public_url . '/js/cometcalendar.js', ['jquery', 'utd_cometcalendar_js'], '1.0.0');
+    wp_register_script('cometcalendar_js', $public_url . '/js/cometcalendar.js', ['jquery', 'utd_cometcalendar_js'], '1.0.0');
+    wp_localize_script('cometcalendar_js', 'cometcalendar_options', $options);
+    wp_enqueue_script('cometcalendar_js');
 
     // Load Styles
     wp_enqueue_style('cometcalendar_css', $public_url . '/css/cometcalendar.css', [], '1.0.0');
