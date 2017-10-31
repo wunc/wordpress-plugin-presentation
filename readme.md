@@ -19,3 +19,4 @@ The branches in this repository represents the steps in the presentation. To loa
 5. Reading shortcode attributes.
 6. Passing data to JavaScript.
 7. Adding features.
+8. Best practices for JavaScript.

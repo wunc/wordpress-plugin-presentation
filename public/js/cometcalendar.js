@@ -21,65 +21,106 @@ var publisher = cometcalendar_options['publisher'] || '';
 var socialHtml = cometcalendar_options['social_html'] || '';
 var accommodation = cometcalendar_options['accommodation'] || '';
 
-var $ = jQuery.noConflict();
-var $calendar;
+/**
+ * CometCalendar Module.
+ * 
+ * @param  {Object} $          jQuery alias
+ * @param  {undefined}         making sure undefined is really undefined
+ * @return {Object}            public methods and properties
+ */
+var cometcalendar = (function($, options, undefined) {
 
-var orderEvents = function(order) {
-  if (order === 'asc') {
+  /** @var {jQuery} the calendar container */
+  var $calendar;
+
+  /**
+   * Orders events.
+   * 
+   * @param  {string} order Either 'asc' or 'desc'
+   */
+  var orderEvents = function(order) {
+    if (order === 'asc') {
+      var $events = $calendar.children('div');
+      $calendar.append($events.get().reverse());
+    }
+  }
+
+  /**
+   * Limits the shown events.
+   * 
+   * @param  {int} limit         How many events to show
+   * @param  {string} limit_showing Limit by showing 'earliest' or 'latest' events
+   */
+  var limitEventsTo = function(limit, limit_showing) {
     var $events = $calendar.children('div');
-    $calendar.append($events.get().reverse());
-  }
-  // Events are desc (latest first) when loaded from the JS API
-}
-
-var limitEventsTo = function(limit, limit_showing) {
-  var $events = $calendar.children('div');
-  var num_excess_events = $events.length - limit;
-  if (num_excess_events > 0) {
-    if (limit_showing === 'earliest') {
-      $events.slice(0,num_excess_events).remove();
-    } else {
-      $events.slice(limit).remove();
+    var num_excess_events = $events.length - limit;
+    if (num_excess_events > 0) {
+      if (limit_showing === 'earliest') {
+        $events.slice(0,num_excess_events).remove();
+      } else {
+        $events.slice(limit).remove();
+      }
     }
   }
-}
 
-var limitEventsToYear = function(year) {
-  var $events_to_remove;
+  /**
+   * Limits the shown events to a particular timeframe.
+   * 
+   * @param  {string|int} year Show events from the given year, the 'current' year, or just 'future' events
+   */
+  var limitEventsToYear = function(year) {
+    var $events_to_remove;
 
-  if (year) {
-    if (year == 'future') {
-      var now = new Date();
-      $events_to_remove = $calendar.children('div').filter(function(index) {
-        var $startDate = $(this).find('.startDate');
-        var event_has_startYear = $startDate.find('> span').hasClass('startYear');
-        var eventStartDate = new Date($startDate.find('.startMonth').text() + ' ' + $startDate.find('.startDay').text() + ', ' + now.getFullYear());
+    if (year) {
+      if (year == 'future') {
+        var now = new Date();
+        $events_to_remove = $calendar.children('div').filter(function(index) {
+          var $startDate = $(this).find('.startDate');
+          var event_has_startYear = $startDate.find('> span').hasClass('startYear');
+          var eventStartDate = new Date($startDate.find('.startMonth').text() + ' ' + $startDate.find('.startDay').text() + ', ' + now.getFullYear());
 
-        return event_has_startYear || eventStartDate < now;
-      });
-    } else if (year == (new Date()).getFullYear() || year == 'current') {
-      // Events in the current year don't have a .startYear element
-      $events_to_remove = $calendar.children('div').has('.startDate .startYear');
-    } else {
-      $events_to_remove = $calendar.children('div').not(':has(.startDate .startYear:contains('+year+'))');
+          return event_has_startYear || eventStartDate < now;
+        });
+      } else if (year == (new Date()).getFullYear() || year == 'current') {
+        // Events in the current year don't have a .startYear element
+        $events_to_remove = $calendar.children('div').has('.startDate .startYear');
+      } else {
+        $events_to_remove = $calendar.children('div').not(':has(.startDate .startYear:contains('+year+'))');
+      }
+      
+      $events_to_remove.remove();
     }
-    
-    $events_to_remove.remove();
   }
-}
 
-var addStructure = function() {
-  $calendar.children('div').addClass('event-panel').wrap('<div class="cometcalendar-event"></div>');
-}
+  /**
+   * Adds some classes and structure so that we can better target and style things.
+   */
+  var addStructure = function() {
+    $calendar.children('div').addClass('event-panel').wrap('<div class="cometcalendar-event"></div>');
+  }
 
+  /**
+   * Initialize the module.
+   */
+  var init = function() {
+    $calendar = $('#cc' + options.feed_id);
+    limitEventsToYear(options.year);
+    limitEventsTo(options.limit, options.limit_showing);
+    orderEvents(options.order);
+    addStructure();
+  };
+
+  /** Declare the public methods and properties of the module. */
+  return {
+    options: options,
+    init: init,
+  };
+
+})(jQuery, cometcalendar_options);
+
+// On page load
 jQuery(function() {
 
-  var options = cometcalendar_options;
-
-  $calendar = $('#cc' + options.feed_id);
-  limitEventsToYear(options.year);
-  limitEventsTo(options.limit, options.limit_showing);
-  orderEvents(options.order);
-  addStructure();
+  cometcalendar.init();
 
 });
