@@ -1,0 +1,12 @@
+/* CSS for the Comet Calendar Plugin */
+
+.comet-calendar > div {
+  margin-bottom: 2rem;
+}
+
+.comet-calendar > div > .title > a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: none;
+}
