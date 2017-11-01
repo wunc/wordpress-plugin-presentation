@@ -22,6 +22,11 @@
  * Domain Path:       /languages
  */
 
+// If this file is called directly, abort.
+if (!defined('WPINC')) {
+    die;
+}
+
 require plugin_dir_path( __FILE__ ) . 'autoload.php';
 
 /**
